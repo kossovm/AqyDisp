@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ui.h": "c",
+			"ui_events.h": "c",
+			"ui_helpers.h": "c",
+			"lvgl.h": "c",
+			"aqylab.h": "c",
+			"esp_lvgl_port.h": "c",
+			"ota.h": "c",
+			"freertos.h": "c",
+			"esp_event.h": "c",
+			"esp_https_ota.h": "c",
+			"esp_system.h": "c",
+			"esp_http_client.h": "c",
+			"protocol_examples_common.h": "c",
+			"esp_crt_bundle.h": "c",
+			"esp_netif.h": "c"
+		}
+	}
+}

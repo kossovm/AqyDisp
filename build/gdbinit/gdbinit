@@ -1,0 +1,2 @@
+source /home/dan/projects/esp/OTA_test/simple_ota_example/build/gdbinit/symbols
+source /home/dan/projects/esp/OTA_test/simple_ota_example/build/gdbinit/connect

@@ -1,0 +1,28 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPath": "/home/dan/esp/v5.4.2/esp-idf",
+  "idf.toolsPath": "/home/dan/.espressif",
+  "idf.pythonInstallPath": "/usr/bin/python",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32s3"
+  },
+  "clangd.path": "/home/dan/.espressif/tools/esp-clang/esp-18.1.2_20240912/esp-clang/bin/clangd",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=/home/dan/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc",
+    "--compile-commands-dir=/home/dan/projects/esp/OTA_test/simple_ota_example/build"
+  ],
+  "idf.port": "/dev/ttyACM0",
+  "idf.flashType": "UART",
+  "files.associations": {
+    "ota.h": "c",
+    "aqylab.h": "c",
+    "i2c.h": "c",
+    "i2c_master.h": "c",
+    "sensors.h": "c",
+    "esp_lcd_touch_gt911.h": "c"
+  }
+}
