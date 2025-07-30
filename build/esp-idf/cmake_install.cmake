@@ -559,6 +559,56 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__esp_idf_lib_helpers/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__i2cdev/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ads111x/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__aht/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__bmp280/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__dht/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__onewire/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ds18x20/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ina219/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__scd4x/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/espressif__esp_lcd_touch/cmake_install.cmake")
 endif()
 

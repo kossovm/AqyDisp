@@ -1,4 +1,4 @@
-menu "Example Configuration"
+menu "OTA Configuration"
 
     config EXAMPLE_FIRMWARE_UPGRADE_URL
         string "firmware upgrade url endpoint"
@@ -51,4 +51,115 @@ menu "Example Configuration"
             help
                 Select ethernet interface to pass the OTA data.
     endchoice
+endmenu
+
+
+
+menu "AHT10 Sensor settings"
+
+    choice EXAMPLE_I2C_ADDRESS
+            prompt "Select I2C address"
+            default EXAMPLE_I2C_ADDRESS_GND
+            help
+                Select I2C address
+
+            config EXAMPLE_I2C_ADDRESS_GND
+                bool "AHT_I2C_ADDRESS_GND"
+                help
+                    Choose this when ADDR pin is connected to ground
+            config EXAMPLE_I2C_ADDRESS_VCC
+                bool "AHT_I2C_ADDRESS_VCC"
+                help
+                    Choose this when ADDR pin is connected to VCC
+        endchoice
+
+        choice EXAMPLE_AHT_CHIP_TYPE
+            prompt "Select chip type"
+            default EXAMPLE_TYPE_AHT1x
+            help
+                Select AHT chip type
+
+            config EXAMPLE_TYPE_AHT1x
+                bool "AHT10 or AHT15"
+            config EXAMPLE_TYPE_AHT20
+                bool "AHT20"
+        endchoice
+
+        config EXAMPLE_I2C_MASTER_SCL
+            int "SCL GPIO Number"
+            default 5 if IDF_TARGET_ESP8266
+            default 6 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+            default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+            default 4 if IDF_TARGET_ESP32H2
+            default 4 if IDF_TARGET_ESP32P4
+            help
+                GPIO number for I2C Master clock line.
+
+        config EXAMPLE_I2C_MASTER_SDA
+            int "SDA GPIO Number"
+            default 4 if IDF_TARGET_ESP8266
+            default 5 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+            default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+            default 3 if IDF_TARGET_ESP32H2
+            default 3 if IDF_TARGET_ESP32P4
+            help
+                GPIO number for I2C Master data line.
+
+
+endmenu
+
+
+menu "DS18X20 OneWire sensor settngs"
+    config EXAMPLE_ONEWIRE_GPIO
+        int "GPIO Number of 1-Wire bus, or DQ"
+        default 4 if IDF_TARGET_ESP8266
+        default 4 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 4 if IDF_TARGET_ESP32H2
+        default 4 if IDF_TARGET_ESP32P4
+        default 17 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        help
+            GPIO Number of 1-Wire bus, or DQ. You might need an external
+            pullup resistor on the bus. See README.md for details.
+
+    config EXAMPLE_DS18X20_ADDR
+        hex "Address of the sensor"
+        default "27041685c771ff28"
+        help
+            The address of the sensor. Change this to the address of your own
+            sensor. You can find out the address of your sensor by running
+            ds18x20_multi example.
+endmenu
+
+
+
+menu "DHT11 Sensor settings"
+    choice EXAMPLE_DHT_CHIP_TYPE
+        prompt "Select chip type"
+        default EXAMPLE_TYPE_AM2301
+
+        config EXAMPLE_TYPE_DHT11
+            bool "DHT11"
+        config EXAMPLE_TYPE_AM2301
+            bool "DHT21/DHT22/AM2301/AM2302/AM2321"
+        config EXAMPLE_TYPE_SI7021
+            bool "Itead Si7021"
+    endchoice
+
+    config EXAMPLE_DATA_GPIO
+        int "Data GPIO number"
+        default 4 if IDF_TARGET_ESP8266
+        default 4 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 4 if IDF_TARGET_ESP32H2
+        default 4 if IDF_TARGET_ESP32P4
+        default 17 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        help
+            GPIO number connected to DATA pin
+
+    config EXAMPLE_INTERNAL_PULLUP
+        bool "Enable internal pull-up resistor"
+        default 0
+        help
+        	Check this option if you don't have external pull-up resistor on data GPIO.
+        	DHT sensors that come mounted on a PCB generally have pull-up resistors on the data pin.
+        	But for stable operation, it is recommended to provide an external pull-up resistor.
 endmenu

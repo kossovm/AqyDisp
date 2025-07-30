@@ -6474,7 +6474,7 @@
                         ],
                         "depends_on": "EXAMPLE_FIRMWARE_UPGRADE_BIND_IF",
                         "help": "Select which interface type of OTA data go through.",
-                        "id": "example-configuration-support-firmware-upgrade-bind-specified-interface-choose-ota-data-bind-interface",
+                        "id": "ota-configuration-support-firmware-upgrade-bind-specified-interface-choose-ota-data-bind-interface",
                         "name": "EXAMPLE_FIRMWARE_UPGRADE_BIND_IF_TYPE",
                         "title": "Choose OTA data bind interface",
                         "type": "choice"
@@ -6490,8 +6490,192 @@
             }
         ],
         "depends_on": null,
-        "id": "example-configuration",
-        "title": "Example Configuration",
+        "id": "ota-configuration",
+        "title": "OTA Configuration",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_I2C_ADDRESS>",
+                        "help": "Choose this when ADDR pin is connected to ground",
+                        "id": "EXAMPLE_I2C_ADDRESS_GND",
+                        "name": "EXAMPLE_I2C_ADDRESS_GND",
+                        "range": null,
+                        "title": "AHT_I2C_ADDRESS_GND",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_I2C_ADDRESS>",
+                        "help": "Choose this when ADDR pin is connected to VCC",
+                        "id": "EXAMPLE_I2C_ADDRESS_VCC",
+                        "name": "EXAMPLE_I2C_ADDRESS_VCC",
+                        "range": null,
+                        "title": "AHT_I2C_ADDRESS_VCC",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Select I2C address",
+                "id": "aht10-sensor-settings-select-i2c-address",
+                "name": "EXAMPLE_I2C_ADDRESS",
+                "title": "Select I2C address",
+                "type": "choice"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_AHT_CHIP_TYPE>",
+                        "help": null,
+                        "id": "EXAMPLE_TYPE_AHT1x",
+                        "name": "EXAMPLE_TYPE_AHT1x",
+                        "range": null,
+                        "title": "AHT10 or AHT15",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_AHT_CHIP_TYPE>",
+                        "help": null,
+                        "id": "EXAMPLE_TYPE_AHT20",
+                        "name": "EXAMPLE_TYPE_AHT20",
+                        "range": null,
+                        "title": "AHT20",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Select AHT chip type",
+                "id": "aht10-sensor-settings-select-chip-type",
+                "name": "EXAMPLE_AHT_CHIP_TYPE",
+                "title": "Select chip type",
+                "type": "choice"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "GPIO number for I2C Master clock line.",
+                "id": "EXAMPLE_I2C_MASTER_SCL",
+                "name": "EXAMPLE_I2C_MASTER_SCL",
+                "range": null,
+                "title": "SCL GPIO Number",
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "GPIO number for I2C Master data line.",
+                "id": "EXAMPLE_I2C_MASTER_SDA",
+                "name": "EXAMPLE_I2C_MASTER_SDA",
+                "range": null,
+                "title": "SDA GPIO Number",
+                "type": "int"
+            }
+        ],
+        "depends_on": null,
+        "id": "aht10-sensor-settings",
+        "title": "AHT10 Sensor settings",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "GPIO Number of 1-Wire bus, or DQ. You might need an external\npullup resistor on the bus. See README.md for details.",
+                "id": "EXAMPLE_ONEWIRE_GPIO",
+                "name": "EXAMPLE_ONEWIRE_GPIO",
+                "range": null,
+                "title": "GPIO Number of 1-Wire bus, or DQ",
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "The address of the sensor. Change this to the address of your own\nsensor. You can find out the address of your sensor by running\nds18x20_multi example.",
+                "id": "EXAMPLE_DS18X20_ADDR",
+                "name": "EXAMPLE_DS18X20_ADDR",
+                "range": null,
+                "title": "Address of the sensor",
+                "type": "hex"
+            }
+        ],
+        "depends_on": null,
+        "id": "ds18x20-onewire-sensor-settngs",
+        "title": "DS18X20 OneWire sensor settngs",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_DHT_CHIP_TYPE>",
+                        "help": null,
+                        "id": "EXAMPLE_TYPE_DHT11",
+                        "name": "EXAMPLE_TYPE_DHT11",
+                        "range": null,
+                        "title": "DHT11",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_DHT_CHIP_TYPE>",
+                        "help": null,
+                        "id": "EXAMPLE_TYPE_AM2301",
+                        "name": "EXAMPLE_TYPE_AM2301",
+                        "range": null,
+                        "title": "DHT21/DHT22/AM2301/AM2302/AM2321",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_DHT_CHIP_TYPE>",
+                        "help": null,
+                        "id": "EXAMPLE_TYPE_SI7021",
+                        "name": "EXAMPLE_TYPE_SI7021",
+                        "range": null,
+                        "title": "Itead Si7021",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": null,
+                "id": "dht11-sensor-settings-select-chip-type",
+                "name": "EXAMPLE_DHT_CHIP_TYPE",
+                "title": "Select chip type",
+                "type": "choice"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "GPIO number connected to DATA pin",
+                "id": "EXAMPLE_DATA_GPIO",
+                "name": "EXAMPLE_DATA_GPIO",
+                "range": null,
+                "title": "Data GPIO number",
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "Check this option if you don't have external pull-up resistor on data GPIO.\nDHT sensors that come mounted on a PCB generally have pull-up resistors on the data pin.\nBut for stable operation, it is recommended to provide an external pull-up resistor.",
+                "id": "EXAMPLE_INTERNAL_PULLUP",
+                "name": "EXAMPLE_INTERNAL_PULLUP",
+                "range": null,
+                "title": "Enable internal pull-up resistor",
+                "type": "bool"
+            }
+        ],
+        "depends_on": null,
+        "id": "dht11-sensor-settings",
+        "title": "DHT11 Sensor settings",
         "type": "menu"
     },
     {
@@ -33424,6 +33608,105 @@
                 "depends_on": null,
                 "id": "component-config-wi-fi-provisioning-manager",
                 "title": "Wi-Fi Provisioning Manager",
+                "type": "menu"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Select this option to use the older ESP-IDF I2C driver API (driver/i2c.h)\ninstead of the newer driver API (driver/i2c_master.h).\n\nThis is automatically determined by the build system based on your ESP-IDF version.\nFor ESP-IDF versions prior to v5.3, the legacy driver will be used automatically.\nYou can manually override this setting if needed.",
+                        "id": "I2CDEV_USE_LEGACY_DRIVER",
+                        "name": "I2CDEV_USE_LEGACY_DRIVER",
+                        "range": null,
+                        "title": "Use Legacy I2C Driver API",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "!IDF_TARGET_ESP8266",
+                        "help": "When enabled, internal pullup resistors are automatically enabled\nwhen both sda_pullup_en and scl_pullup_en are false (default state).\n\nUseful for development and prototyping. Disable for production \nsystems with external pullups to avoid interference.\n\nConsiderations:\n- May increase power consumption slightly\n- Could interfere with carefully tuned external pullups\n- Not recommended for battery-powered applications\n\nNote: This option only affects the modern i2cdev driver (ESP32 family).\nLegacy driver behavior is unchanged for compatibility.",
+                        "id": "I2CDEV_AUTO_ENABLE_PULLUPS",
+                        "name": "I2CDEV_AUTO_ENABLE_PULLUPS",
+                        "range": null,
+                        "title": "Automatically enable internal I2C pullups when not configured",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Default SDA pin for I2C devices.",
+                        "id": "I2CDEV_DEFAULT_SDA_PIN",
+                        "name": "I2CDEV_DEFAULT_SDA_PIN",
+                        "range": null,
+                        "title": "Default I2C SDA pin",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Default SCL pin for I2C devices.",
+                        "id": "I2CDEV_DEFAULT_SCL_PIN",
+                        "name": "I2CDEV_DEFAULT_SCL_PIN",
+                        "range": null,
+                        "title": "Default I2C SCL pin",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Maximum number of devices that can be registered on a single I2C port.",
+                        "id": "I2CDEV_MAX_DEVICES_PER_PORT",
+                        "name": "I2CDEV_MAX_DEVICES_PER_PORT",
+                        "range": null,
+                        "title": "Maximum number of devices per I2C port",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": null,
+                        "id": "I2CDEV_TIMEOUT",
+                        "name": "I2CDEV_TIMEOUT",
+                        "range": [
+                            10,
+                            5000
+                        ],
+                        "title": "I2C transaction timeout, milliseconds",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Attention! After enabling this option, all I2C device\ndrivers will become non-thread safe. \nUse this option if you need to access your I2C devices\nfrom interrupt handlers.",
+                        "id": "I2CDEV_NOLOCK",
+                        "name": "I2CDEV_NOLOCK",
+                        "range": null,
+                        "title": "Disable the use of mutexes",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "id": "component-config-i2c-device-library",
+                "title": "I2C Device Library",
+                "type": "menu"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Compute a Dallas Semiconductor 8 bit CRC using a CRC table located in flash",
+                        "id": "ONEWIRE_CRC8_TABLE",
+                        "name": "ONEWIRE_CRC8_TABLE",
+                        "range": null,
+                        "title": "Fast CRC-8 algorithm",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "id": "component-config-onewire",
+                "title": "OneWire",
                 "type": "menu"
             },
             {

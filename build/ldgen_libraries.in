@@ -84,6 +84,15 @@ $<TARGET_FILE:__idf_touch_element>
 $<TARGET_FILE:__idf_usb>
 $<TARGET_FILE:__idf_wifi_provisioning>
 $<TARGET_FILE:__idf_atanisoft__esp_lcd_ili9488>
+$<TARGET_FILE:__idf_esp-idf-lib__i2cdev>
+$<TARGET_FILE:__idf_esp-idf-lib__ads111x>
+$<TARGET_FILE:__idf_esp-idf-lib__aht>
+$<TARGET_FILE:__idf_esp-idf-lib__bmp280>
+$<TARGET_FILE:__idf_esp-idf-lib__dht>
+$<TARGET_FILE:__idf_esp-idf-lib__onewire>
+$<TARGET_FILE:__idf_esp-idf-lib__ds18x20>
+$<TARGET_FILE:__idf_esp-idf-lib__ina219>
+$<TARGET_FILE:__idf_esp-idf-lib__scd4x>
 $<TARGET_FILE:__idf_espressif__esp_lcd_touch>
 $<TARGET_FILE:__idf_espressif__esp_lcd_touch_gt911>
 $<TARGET_FILE:__idf_lvgl__lvgl>

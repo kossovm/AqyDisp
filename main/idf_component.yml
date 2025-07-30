@@ -1,8 +1,15 @@
 dependencies:
   protocol_examples_common:
     path: ${IDF_PATH}/examples/common_components/protocol_examples_common
-  idf: ">=5.0"
-  lvgl/lvgl: "9.2.2"
+  idf: '>=5.0'
+  lvgl/lvgl: 9.2.2
   atanisoft/esp_lcd_ili9488: 1.0.11
   espressif/esp_lvgl_port: ^2.6.0
   espressif/esp_lcd_touch_gt911: 1.1.3
+  esp-idf-lib/ads111x: '*'
+  esp-idf-lib/bmp280: '*'
+  esp-idf-lib/ina219: '*'
+  esp-idf-lib/scd4x: '*'
+  esp-idf-lib/ds18x20: '*'
+  esp-idf-lib/aht: '*'
+  esp-idf-lib/dht: '*'

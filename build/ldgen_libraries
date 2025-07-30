@@ -84,6 +84,15 @@
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/usb/libusb.a
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/atanisoft__esp_lcd_ili9488/libatanisoft__esp_lcd_ili9488.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__i2cdev/libesp-idf-lib__i2cdev.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ads111x/libesp-idf-lib__ads111x.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__aht/libesp-idf-lib__aht.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__bmp280/libesp-idf-lib__bmp280.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__dht/libesp-idf-lib__dht.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__onewire/libesp-idf-lib__onewire.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ds18x20/libesp-idf-lib__ds18x20.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__ina219/libesp-idf-lib__ina219.a
+/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__scd4x/libesp-idf-lib__scd4x.a
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/espressif__esp_lcd_touch/libespressif__esp_lcd_touch.a
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/espressif__esp_lcd_touch_gt911/libespressif__esp_lcd_touch_gt911.a
 /home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/lvgl__lvgl/liblvgl__lvgl.a
