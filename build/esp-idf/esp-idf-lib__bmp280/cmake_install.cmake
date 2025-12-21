@@ -1,4 +1,4 @@
-# Install script for directory: /home/dan/projects/esp/OTA_test/simple_ota_example/managed_components/esp-idf-lib__bmp280
+# Install script for directory: /home/dan/projects/AqyLab/managed_components/esp-idf-lib__bmp280
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,6 +40,6 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/esp-idf-lib__bmp280/install_local_manifest.txt"
+  file(WRITE "/home/dan/projects/AqyLab/build/esp-idf/esp-idf-lib__bmp280/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

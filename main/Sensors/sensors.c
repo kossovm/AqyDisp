@@ -19,6 +19,7 @@
 #include "GUI/ui.h"
 #include "esp_lvgl_port.h"
 
+#include "i2c_shared.h"
 
 #ifndef APP_CPU_NUM
 #define APP_CPU_NUM PRO_CPU_NUM
@@ -109,32 +110,41 @@
 
 static const char *TAG = "AqyLab_Sensors";
 
-extern i2c_master_bus_handle_t i2c_bus_handle;
+
 
 
 
 /////////////////DUMMY + Unused Testing Functions/////////////////////
 
-
+i2c_dev_t dummy_bus_holder = {0};
+i2c_master_bus_handle_t i2c_bus_handle = NULL;
 
 void initiateDummyDeviceForBUUUUS() {
-    i2c_dev_t dummy = {
-        .port = I2C_PORT,
-        .addr = 0x7F,                        // Unused address
-        .cfg = {                             // Pins + clock
-            .sda_io_num = EXAMPLE_SDA,
-            .scl_io_num = EXAMPLE_SCL,
-            .master.clk_speed = 400000       // 400 kHz fast-mode
-        }
-    };
+    memset(&dummy_bus_holder, 0, sizeof(i2c_dev_t));
+
+    dummy_bus_holder.port = I2C_PORT;
+    dummy_bus_holder.addr = 0x00;  // Doesn't matter - we won't communicate
+    dummy_bus_holder.cfg.sda_io_num = EXAMPLE_SDA;
+    dummy_bus_holder.cfg.scl_io_num = EXAMPLE_SCL;
+    dummy_bus_holder.cfg.master.clk_speed = 400000;
+
 
     /* 3. Allocate bus + mutex without putting bytes on the wire */
-    ESP_ERROR_CHECK(i2c_dev_create_mutex(&dummy));
+    ESP_ERROR_CHECK(i2c_dev_create_mutex(&dummy_bus_holder));
 
-    (void)i2c_dev_check_present(&dummy);
+    esp_err_t probe_err = i2c_dev_check_present(&dummy_bus_holder);
+    if (probe_err != ESP_OK) {
+        ESP_LOGW(TAG, "Dummy device probe failed (expected): %s", esp_err_to_name(probe_err));
+    }
 
-    /* 4. Optionally free the descriptor—bus stays alive */
-    //ESP_ERROR_CHECK(i2c_dev_delete_mutex(&dummy));
+    // Now get the bus handle using the new function
+    i2c_bus_handle = i2cdev_get_bus_handle(I2C_PORT);
+    
+    if (i2c_bus_handle == NULL) {
+        ESP_LOGE(TAG, "Failed to get I2C bus handle!");
+    } else {
+        ESP_LOGI(TAG, "I2C bus handle acquired: %p", (void*)i2c_bus_handle);
+    }
 }
 
 

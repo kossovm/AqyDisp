@@ -381,4 +381,5 @@ esp_err_t i2c_dev_write_reg(const i2c_dev_t *dev, uint8_t reg, const void *data,
 
 #endif /* __I2CDEV_H__ */
 
-i2c_master_bus_handle_t i2cdev_get_bus_custom(i2c_port_t port);
+
+i2c_master_bus_handle_t i2cdev_get_bus_handle(i2c_port_t port);

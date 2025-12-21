@@ -6,9 +6,7 @@
 
 #include "aqylab.h"
 #include "Sensors/sensors.h"
-
-static i2c_master_bus_handle_t i2c_bus_handle = NULL;
-static i2c_master_dev_handle_t i2c_device_handle = NULL;
+#include "Sensors/i2c_shared.h"
 
 static esp_lcd_touch_handle_t touch_handle = NULL;
 static lv_indev_t *lvgl_touch_indev = NULL;
@@ -24,25 +22,8 @@ extern void example_lvgl_demo_ui(lv_disp_t *scr);
 static const char *TAG = "AqyLab_Display";
 
 
-static void i2c_init_once(void)
+esp_err_t i2c_MAIN_init(void)
 {
-    static bool done = false;
-    if (done) return;
-
-    /* 1 — create the bus (ONE call only) */
-    esp_idf_lib_i2cdev_init();                         /* uses Kconfig pins & clk */   // :contentReference[oaicite:4]{index=4}
-    i2c_bus_handle = i2cdev_get_bus_custom((i2c_port_t)EXAMPLE_I2C_PORT_NUM);  /* grab the cached handle */
-    done = true;
-}
-
-
-esp_err_t app_touch_init(void)
-{   
-    //i2c_init_once();
-
-    //i2c_master_bus_init(&i2c_bus_handle);
-
-
 
     //// BUS INIT + DUMMY DEV for i2c bus initialization  ////////////////
 
@@ -52,8 +33,19 @@ esp_err_t app_touch_init(void)
 
     ///////////////////////////////////////////////////////////////////
 
+    esp_err_t err = ESP_OK;
 
-    i2c_bus_handle = i2cdev_get_bus_custom(1);
+    return err;
+}
+
+esp_err_t app_touch_init(void)
+{   
+    //i2c_init_once();
+
+    //i2c_master_bus_init(&i2c_bus_handle);
+
+
+    i2c_bus_handle = i2cdev_get_bus_handle(1);
 
     /* Initialize touch */
     esp_lcd_panel_io_i2c_config_t tp_io_config = ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG();
@@ -221,6 +213,8 @@ void aqylab_init(void)
 {
     // Backbone
 
+    ESP_ERROR_CHECK(i2c_MAIN_init());
+    
     ESP_ERROR_CHECK(lcd_core_init());
 
     ESP_ERROR_CHECK(lcd_port_init());

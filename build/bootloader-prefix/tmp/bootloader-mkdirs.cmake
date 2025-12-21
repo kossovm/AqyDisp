@@ -10,18 +10,18 @@ if(NOT EXISTS "/home/dan/esp/v5.4.2/esp-idf/components/bootloader/subproject")
   file(MAKE_DIRECTORY "/home/dan/esp/v5.4.2/esp-idf/components/bootloader/subproject")
 endif()
 file(MAKE_DIRECTORY
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader"
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix"
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/tmp"
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/src/bootloader-stamp"
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/src"
-  "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/dan/projects/AqyLab/build/bootloader"
+  "/home/dan/projects/AqyLab/build/bootloader-prefix"
+  "/home/dan/projects/AqyLab/build/bootloader-prefix/tmp"
+  "/home/dan/projects/AqyLab/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/dan/projects/AqyLab/build/bootloader-prefix/src"
+  "/home/dan/projects/AqyLab/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/home/dan/projects/AqyLab/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/home/dan/projects/AqyLab/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

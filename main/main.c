@@ -11,6 +11,8 @@ void app_main(void)
 
     //xTaskCreatePinnedToCore(scd41_test, "testing", configMINIMAL_STACK_SIZE * 8, NULL, 5, NULL, APP_CPU_NUM);
 
+    // i2c_MAIN_init();
+
     aqylab_init();
 
     lvgl_port_lock(0);
@@ -19,7 +21,7 @@ void app_main(void)
 
     wifi_ui_init();
 
-    //lv_demo_stress();
+    // lv_demo_stress();
 
     lvgl_port_unlock();
 

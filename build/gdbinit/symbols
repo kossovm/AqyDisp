@@ -13,8 +13,8 @@ end
 
 # Load bootloader symbols
 set confirm off
-    add-symbol-file /home/dan/projects/esp/OTA_test/simple_ota_example/build/bootloader/bootloader.elf
+    add-symbol-file /home/dan/projects/AqyLab/build/bootloader/bootloader.elf
 set confirm on
 
 # Load application symbols
-file /home/dan/projects/esp/OTA_test/simple_ota_example/build/simple_ota.elf
+file /home/dan/projects/AqyLab/build/simple_ota.elf

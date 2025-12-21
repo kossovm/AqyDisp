@@ -1,4 +1,4 @@
-# Install script for directory: /home/dan/projects/esp/OTA_test/simple_ota_example
+# Install script for directory: /home/dan/projects/AqyLab
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,13 +39,13 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/dan/projects/esp/OTA_test/simple_ota_example/build/esp-idf/cmake_install.cmake")
+  include("/home/dan/projects/AqyLab/build/esp-idf/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/dan/projects/esp/OTA_test/simple_ota_example/build/install_local_manifest.txt"
+  file(WRITE "/home/dan/projects/AqyLab/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -61,6 +61,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/dan/projects/esp/OTA_test/simple_ota_example/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/dan/projects/AqyLab/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

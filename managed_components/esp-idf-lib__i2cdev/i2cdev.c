@@ -896,8 +896,22 @@ esp_err_t i2cdev_done(void)
     return result;
 }
 
-
-i2c_master_bus_handle_t i2cdev_get_bus_custom(i2c_port_t port)
+i2c_master_bus_handle_t i2cdev_get_bus_handle(i2c_port_t port)
 {
-    return (port < I2C_NUM_MAX) ? i2c_ports[port].bus_handle : NULL;
+    if (port >= I2C_NUM_MAX)
+    {
+        ESP_LOGE(TAG, "Invalid port number: %d", port);
+        return NULL;
+    }
+
+    i2c_port_state_t *port_state = &i2c_ports[port];
+    
+    if (!port_state->installed || !port_state->bus_handle)
+    {
+        ESP_LOGW(TAG, "[Port %d] Bus not initialized - call i2c_dev_create_mutex() on a device first", port);
+        return NULL;
+    }
+
+    ESP_LOGV(TAG, "[Port %d] Returning bus handle: %p", port, port_state->bus_handle);
+    return port_state->bus_handle;
 }
