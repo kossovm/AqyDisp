@@ -1,15 +1,12 @@
 #include "sensors.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <inttypes.h>
-
-#include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
+#include "esp_adc/adc_oneshot.h"
+#include "esp_adc/adc_cali.h"
+#include "esp_adc/adc_cali_scheme.h"
 #include <esp_system.h>
 #include <esp_log.h>
 #include <esp_err.h>
+#include "soc/soc_caps.h"
 
 #include <bmp280.h>
 #include <ina219.h>
@@ -18,6 +15,10 @@
 #include <dht.h>
 
 #include <ds18x20.h>
+
+#include "GUI/ui.h"
+#include "esp_lvgl_port.h"
+
 
 #ifndef APP_CPU_NUM
 #define APP_CPU_NUM PRO_CPU_NUM
@@ -86,9 +87,61 @@
 
 
 
+
+
+//////////////////ANALOGUE CONFIGS/////////////////////
+
+#define EXAMPLE_ADC1_CHAN5_GPIO6          ADC_CHANNEL_5
+
+#define EXAMPLE_ADC_ATTEN           ADC_ATTEN_DB_12
+
+
+
+///////////////////////////////////////////////////////
+
+
+////////////DUMMY CONFIG////////////////////////////
+
+#define DUMMY_ADDR    0x00
+
+
+
+
 static const char *TAG = "AqyLab_Sensors";
 
 extern i2c_master_bus_handle_t i2c_bus_handle;
+
+
+
+/////////////////DUMMY + Unused Testing Functions/////////////////////
+
+
+
+void initiateDummyDeviceForBUUUUS() {
+    i2c_dev_t dummy = {
+        .port = I2C_PORT,
+        .addr = 0x7F,                        // Unused address
+        .cfg = {                             // Pins + clock
+            .sda_io_num = EXAMPLE_SDA,
+            .scl_io_num = EXAMPLE_SCL,
+            .master.clk_speed = 400000       // 400 kHz fast-mode
+        }
+    };
+
+    /* 3. Allocate bus + mutex without putting bytes on the wire */
+    ESP_ERROR_CHECK(i2c_dev_create_mutex(&dummy));
+
+    (void)i2c_dev_check_present(&dummy);
+
+    /* 4. Optionally free the descriptor—bus stays alive */
+    //ESP_ERROR_CHECK(i2c_dev_delete_mutex(&dummy));
+}
+
+
+
+
+
+
 
 esp_err_t i2c_master_bus_init(i2c_master_bus_handle_t *bus_handle)
 {
@@ -131,6 +184,14 @@ esp_err_t i2c_master_device_init(i2c_master_bus_handle_t *i2c_bus_handle, i2c_ma
 void esp_idf_lib_i2cdev_init() {
     ESP_ERROR_CHECK(i2cdev_init());
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -210,15 +271,29 @@ void ina219_test(void *pvParameters)
     }
 }
 
+void scd41_dummy_init() {
+    i2c_dev_t dev = { 0 };
+
+    ESP_ERROR_CHECK(scd4x_init_desc(&dev, (i2c_port_t)I2C_PORT, (gpio_num_t)EXAMPLE_SDA, (gpio_num_t)EXAMPLE_SCL));
+
+    // ESP_LOGI(TAG, "Initializing sensor...");
+    // //ESP_ERROR_CHECK(scd4x_wake_up(&dev));
+    ESP_ERROR_CHECK(scd4x_stop_periodic_measurement(&dev));
+    
+    ESP_ERROR_CHECK(scd4x_reinit(&dev));
+
+    ESP_LOGI(TAG, "Dummy initialized");
+}
 
 void scd41_test(void *pvParameters)
 {
+    
     i2c_dev_t dev = { 0 };
 
     ESP_ERROR_CHECK(scd4x_init_desc(&dev, (i2c_port_t)I2C_PORT, (gpio_num_t)EXAMPLE_SDA, (gpio_num_t)EXAMPLE_SCL));
 
     ESP_LOGI(TAG, "Initializing sensor...");
-    ESP_ERROR_CHECK(scd4x_wake_up(&dev));
+    //ESP_ERROR_CHECK(scd4x_wake_up(&dev));
     ESP_ERROR_CHECK(scd4x_stop_periodic_measurement(&dev));
     ESP_ERROR_CHECK(scd4x_reinit(&dev));
     ESP_LOGI(TAG, "Sensor initialized");
@@ -232,8 +307,15 @@ void scd41_test(void *pvParameters)
 
     uint16_t co2;
     float temperature, humidity;
+
+    lvgl_port_lock(0);
+    lv_chart_series_t *co2ReadingsDataSeries = lv_chart_add_series(uic_Chart1, lv_color_hex(0x6C42C1), LV_CHART_AXIS_PRIMARY_Y);
+    lv_chart_set_x_start_point(uic_Chart1, co2ReadingsDataSeries, 0);
+    lvgl_port_unlock();
+
     while (1)
     {
+
         vTaskDelay(pdMS_TO_TICKS(5000));
 
         esp_err_t res = scd4x_read_measurement(&dev, &co2, &temperature, &humidity);
@@ -249,14 +331,30 @@ void scd41_test(void *pvParameters)
             continue;
         }
 
+        
+
         ESP_LOGI(TAG, "CO2: %u ppm", co2);
         ESP_LOGI(TAG, "Temperature: %.2f °C", temperature);
         ESP_LOGI(TAG, "Humidity: %.2f %%", humidity);
+
+        ESP_LOGI(TAG, "YEYA");
+
+        lvgl_port_lock(0);
+
+        lv_chart_set_range(uic_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, co2 + 300);
+    
+        lv_chart_set_next_value(uic_Chart1, co2ReadingsDataSeries, (int32_t)co2);
+
+        //lv_chart_set_cursor_point();
+        lvgl_port_unlock();
+
     }
+
+
 }
 
 
-void aht10_task(void *pvParameters)
+void aht10_test(void *pvParameters)
 {
     aht_t dev = { 0 };
     dev.mode = AHT_MODE_NORMAL;
@@ -348,8 +446,148 @@ void dht11_test(void *pvParameters)
 
 
 
-///////////ANALOGUE SENSORS/////////////////
+///////////ANALOGUE SENSORS boogaloo (the electric kind)/////////////////
 
+
+
+/*---------------------------------------------------------------
+        ADC Calibration
+---------------------------------------------------------------*/
+static bool example_adc_calibration_init(adc_unit_t unit, adc_channel_t channel, adc_atten_t atten, adc_cali_handle_t *out_handle)
+{
+    adc_cali_handle_t handle = NULL;
+    esp_err_t ret = ESP_FAIL;
+    bool calibrated = false;
+
+#if ADC_CALI_SCHEME_CURVE_FITTING_SUPPORTED
+    if (!calibrated) {
+        ESP_LOGI(TAG, "calibration scheme version is %s", "Curve Fitting");
+        adc_cali_curve_fitting_config_t cali_config = {
+            .unit_id = unit,
+            .chan = channel,
+            .atten = atten,
+            .bitwidth = ADC_BITWIDTH_DEFAULT,
+        };
+        ret = adc_cali_create_scheme_curve_fitting(&cali_config, &handle);
+        if (ret == ESP_OK) {
+            calibrated = true;
+        }
+    }
+#endif
+
+#if ADC_CALI_SCHEME_LINE_FITTING_SUPPORTED
+    if (!calibrated) {
+        ESP_LOGI(TAG, "calibration scheme version is %s", "Line Fitting");
+        adc_cali_line_fitting_config_t cali_config = {
+            .unit_id = unit,
+            .atten = atten,
+            .bitwidth = ADC_BITWIDTH_DEFAULT,
+        };
+        ret = adc_cali_create_scheme_line_fitting(&cali_config, &handle);
+        if (ret == ESP_OK) {
+            calibrated = true;
+        }
+    }
+#endif
+
+    *out_handle = handle;
+    if (ret == ESP_OK) {
+        ESP_LOGI(TAG, "Calibration Success");
+    } else if (ret == ESP_ERR_NOT_SUPPORTED || !calibrated) {
+        ESP_LOGW(TAG, "eFuse not burnt, skip software calibration");
+    } else {
+        ESP_LOGE(TAG, "Invalid arg or no memory");
+    }
+
+    return calibrated;
+}
+
+
+
+esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
+
+
+
+    //-------------ADC1 Init---------------//
+    adc_oneshot_unit_handle_t adc_handle;
+    adc_oneshot_unit_init_cfg_t init_config = {
+        .unit_id = ADC_UNIT_1,
+        .ulp_mode = ADC_ULP_MODE_DISABLE
+    };
+    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config, &adc_handle));
+
+
+    //-------------ADC1 Config---------------//
+
+    adc_oneshot_chan_cfg_t channel_config = {
+        .atten = EXAMPLE_ADC_ATTEN,
+        .bitwidth = ADC_BITWIDTH_DEFAULT,
+    };
+
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &channel_config));
+
+    //-------------ADC1 Calibration Init---------------//
+
+    adc_cali_handle_t adc_cali_chan5_handle = NULL;
+
+    bool do_calibration1_chan0 = example_adc_calibration_init(ADC_UNIT_1, EXAMPLE_ADC1_CHAN5_GPIO6, EXAMPLE_ADC_ATTEN, &adc_cali_chan5_handle);
+
+    while (1) {
+        ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, adc_raw));
+        ESP_LOGI(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *adc_raw);
+        if (do_calibration1_chan0) {
+            ESP_ERROR_CHECK(adc_cali_raw_to_voltage(adc_cali_chan5_handle, *adc_raw, voltage));
+            ESP_LOGI(TAG, "ADC%d Channel[%d] Cali Voltage: %d mV", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *voltage);
+        }
+        vTaskDelay(pdMS_TO_TICKS(1000));
+
+    }
+}
+
+
+
+//NEEEDS TESTING. ARA ARA//
+
+void mq8_print_values_test(void *pvParameters) {
+    int adc_raw_m8, voltage_m8;
+
+    adc_config_cali_init(&adc_raw_m8, &voltage_m8);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////
 
 
 

@@ -32,7 +32,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EXAMPLE_LCD_PIXEL_CLOCK_HZ     (25 * 1000 * 1000)
+#define EXAMPLE_LCD_PIXEL_CLOCK_HZ     (40 * 1000 * 1000)
 #define EXAMPLE_LCD_I80_BUS_WIDTH 16
 
 
@@ -78,7 +78,7 @@
 #define EXAMPLE_TOUCH_CLK_HZ 400000
 
 
-#define BUFFER_SIZE (EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES) / 10
+#define BUFFER_SIZE (EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES) / 5
 
 
 void aqylab_init(void);

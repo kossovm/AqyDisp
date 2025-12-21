@@ -2,20 +2,18 @@
 idf_build_get_property(project_dir PROJECT_DIR)
 
 idf_component_register(
-    SRCS           "main.c"
-                   "GUI/ui.c"
-                   "GUI/ui_events.c"
-                   "GUI/components/ui_comp_hook.c"
-                   "GUI/screens/ui_Screen1.c"
-                   "GUI/ui_helpers.c"
-                   "LVGL_init/aqylab.c"
-                   "OTA/ota.c"
-                   "Sensors/sensors.c"
-                   
-    
-    INCLUDE_DIRS    "."
-    
-    EMBED_TXTFILES ${project_dir}/server_certs/ca_cert.pem
-    
+    SRC_DIRS
+        "."                 # main.c lives here
+        "GUI"               # ui.c, ui_events.c, helpers, etc.
+        "GUI/components"
+        "GUI/screens"       # all screen .c files *with* extension
+        "GUI/images"        # auto-generated image sources
+        "LVGL_init"
+        "OTA"
+        "Sensors"
+        "WIFI"
+
+    INCLUDE_DIRS "."
+    EMBED_TXTFILES "${project_dir}/server_certs/ca_cert.pem"
 )
 

@@ -5,12 +5,13 @@
 
 #include "ui.h"
 #include "OTA/ota.h"
+#include "Sensors/sensors.h"
+#include "WIFI/wifi.h"
 
 extern void simple_ota_example_task();
 
 void ota_custom_update(lv_event_t * e)
 {
-	
 	
 	if (xTaskCreate(&simple_ota_example_task,
                     "ota_example_task",
@@ -22,4 +23,74 @@ void ota_custom_update(lv_event_t * e)
 		ESP_LOGE(TAG, "Nice!!!!");
 	}
 
+}
+
+static void showPointValues(lv_event_t * e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * chart = lv_event_get_target(e);
+
+    if(code == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_invalidate(chart);
+    }
+    if(code == LV_EVENT_REFR_EXT_DRAW_SIZE) {
+        int32_t * s = lv_event_get_param(e);
+        *s = LV_MAX(*s, 20);
+    }
+    else if(code == LV_EVENT_DRAW_POST_END) {
+        int32_t id = lv_chart_get_pressed_point(chart);
+        if(id == LV_CHART_POINT_NONE) return;
+
+        LV_LOG_USER("Selected point %d", (int)id);
+
+        lv_chart_series_t * ser = lv_chart_get_series_next(chart, NULL);
+        while(ser) {
+            lv_point_t p;
+            lv_chart_get_point_pos_by_id(chart, ser, id, &p);
+
+            int32_t * y_array = lv_chart_get_y_array(chart, ser);
+            int32_t value = y_array[id];
+
+            char buf[16];
+            lv_snprintf(buf, sizeof(buf), LV_SYMBOL_DUMMY"ppm%d", value);
+
+            lv_draw_rect_dsc_t draw_rect_dsc;
+            lv_draw_rect_dsc_init(&draw_rect_dsc);
+            draw_rect_dsc.bg_color = lv_color_black();
+            draw_rect_dsc.bg_opa = LV_OPA_50;
+            draw_rect_dsc.radius = 3;
+            draw_rect_dsc.bg_image_src = buf;
+            draw_rect_dsc.bg_image_recolor = lv_color_white();
+
+            lv_area_t chart_obj_coords;
+            lv_obj_get_coords(chart, &chart_obj_coords);
+            lv_area_t a;
+            a.x1 = chart_obj_coords.x1 + p.x - 20;
+            a.x2 = chart_obj_coords.x1 + p.x + 20;
+            a.y1 = chart_obj_coords.y1 + p.y - 30;
+            a.y2 = chart_obj_coords.y1 + p.y - 10;
+
+            lv_layer_t * layer = lv_event_get_layer(e);
+            lv_draw_rect(layer, &draw_rect_dsc, &a);
+
+            ser = lv_chart_get_series_next(chart, ser);
+        }
+    }
+    else if(code == LV_EVENT_RELEASED) {
+        lv_obj_invalidate(chart);
+    }
+}
+
+
+void startCO2Graph(lv_event_t * e)
+{   
+
+    lv_obj_add_event_cb(uic_Chart1, showPointValues, LV_EVENT_ALL, NULL);
+
+	xTaskCreatePinnedToCore(scd41_test, "scd41graph_start", configMINIMAL_STACK_SIZE * 8, NULL, 5, NULL, APP_CPU_NUM);
+}
+
+void populateWiFiList(lv_event_t * e)
+{
+	//wifi_ui_init();
 }

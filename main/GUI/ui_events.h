@@ -10,8 +10,9 @@
 extern "C" {
 #endif
 
-
+void populateWiFiList(lv_event_t * e);
 void ota_custom_update(lv_event_t * e);
+void startCO2Graph(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

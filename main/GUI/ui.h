@@ -15,14 +15,30 @@ extern "C" {
 #include "ui_helpers.h"
 #include "ui_events.h"
 
-
 ///////////////////// SCREENS ////////////////////
-#include "screens/ui_Screen1.h"
+#include "screens/ui_logoScreen.h"
+#include "screens/ui_homeScreen.h"
+#include "screens/ui_wifiConnectScreen.h"
+#include "screens/ui_graphScreen.h"
+#include "screens/ui_settingsScreen.h"
+#include "screens/ui_instructionsScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
+extern lv_anim_t * CustomFadeIn_Animation(lv_obj_t * TargetObject, int delay);
+extern lv_anim_t * CustomFadeOut_Animation(lv_obj_t * TargetObject, int delay);
 
 // EVENTS
 extern lv_obj_t * ui____initial_actions0;
+
+// IMAGES AND IMAGE SETS
+LV_IMG_DECLARE(ui_img_logo_png);    // assets/logo.png
+LV_IMG_DECLARE(ui_img_chart_png);    // assets/chart.png
+LV_IMG_DECLARE(ui_img_473763830);    // assets/wifi-not-connected.png
+LV_IMG_DECLARE(ui_img_settings_png);    // assets/settings.png
+LV_IMG_DECLARE(ui_img_996158111);    // assets/wifi-warning.png
+LV_IMG_DECLARE(ui_img_338993590);    // assets/wifi-connected.png
+LV_IMG_DECLARE(ui_img_round_back_png);    // assets/round_back.png
+LV_IMG_DECLARE(ui_img_wait_png);    // assets/wait.png
 
 // UI INIT
 void ui_init(void);
