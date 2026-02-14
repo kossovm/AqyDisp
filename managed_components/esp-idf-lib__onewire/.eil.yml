@@ -1,7 +1,7 @@
 ---
 name: onewire
 description: Bit-banging 1-Wire driver
-version: 1.0.7
+version: 1.1.0
 groups:
   - common
 code_owners: UncleRus

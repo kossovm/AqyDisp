@@ -94,3 +94,21 @@ void populateWiFiList(lv_event_t * e)
 {
 	//wifi_ui_init();
 }
+
+void startCO2Task(lv_event_t * e)
+{
+	// Your code here
+}
+
+void startH2Task(lv_event_t * e)
+{
+	lv_obj_add_event_cb(uic_Chart1, showPointValues, LV_EVENT_ALL, NULL);
+
+	xTaskCreatePinnedToCore(mq8_print_values_test, "mq8_print_values", configMINIMAL_STACK_SIZE * 8, NULL, 5, NULL, APP_CPU_NUM);
+}
+
+void startTemperatureTask(lv_event_t * e) {
+    lv_obj_add_event_cb(uic_Chart1, showPointValues, LV_EVENT_ALL, NULL);
+
+	xTaskCreatePinnedToCore(ds18x20_test, "ds18x20", configMINIMAL_STACK_SIZE * 8, NULL, 5, NULL, APP_CPU_NUM);
+}

@@ -215,12 +215,19 @@ void aqylab_init(void)
 
     ESP_ERROR_CHECK(i2c_MAIN_init());
     
+    vTaskDelay(pdMS_TO_TICKS(100));
+
     ESP_ERROR_CHECK(lcd_core_init());
+
+    vTaskDelay(pdMS_TO_TICKS(100));
 
     ESP_ERROR_CHECK(lcd_port_init());
 
+    vTaskDelay(pdMS_TO_TICKS(100));
+
     ESP_ERROR_CHECK(app_touch_init());
 
+    vTaskDelay(pdMS_TO_TICKS(100));
 
     lvgl_port_lock(0);
 

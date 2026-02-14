@@ -47,7 +47,7 @@
 #define __I2CDEV_H__
 
 #include <driver/gpio.h>
-#include <driver/i2c.h>
+// #include <driver/i2c.h>
 #include "driver/i2c_master.h"
 #include <esp_err.h>
 #include <esp_idf_lib_helpers.h>

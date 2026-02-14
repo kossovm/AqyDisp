@@ -12,7 +12,9 @@ extern "C" {
 
 void populateWiFiList(lv_event_t * e);
 void ota_custom_update(lv_event_t * e);
-void startCO2Graph(lv_event_t * e);
+void startCO2Task(lv_event_t * e);
+void startH2Task(lv_event_t * e);
+void startTemperatureTask(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

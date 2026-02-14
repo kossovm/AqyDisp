@@ -4,6 +4,7 @@ SET(SOURCES screens/ui_logoScreen.c
     screens/ui_graphScreen.c
     screens/ui_settingsScreen.c
     screens/ui_instructionsScreen.c
+    screens/ui_sensorChooseScreen.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c

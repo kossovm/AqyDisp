@@ -42,3 +42,5 @@ void aht10_test(void *pvParameters);
 void ds18x20_test(void *pvParameter);
 
 void dht11_test(void *pvParameters);
+
+void mq8_print_values_test(void *pvParameters);

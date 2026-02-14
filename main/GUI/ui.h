@@ -22,6 +22,7 @@ extern "C" {
 #include "screens/ui_graphScreen.h"
 #include "screens/ui_settingsScreen.h"
 #include "screens/ui_instructionsScreen.h"
+#include "screens/ui_sensorChooseScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 extern lv_anim_t * CustomFadeIn_Animation(lv_obj_t * TargetObject, int delay);

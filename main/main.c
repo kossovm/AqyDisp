@@ -19,7 +19,7 @@ void app_main(void)
 
     ui_init();
 
-    wifi_ui_init();
+    // wifi_ui_init();
 
     // lv_demo_stress();
 

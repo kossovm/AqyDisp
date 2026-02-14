@@ -9,6 +9,7 @@ lv_obj_t * uic_Chart1;
 lv_obj_t * ui_graphScreen = NULL;
 lv_obj_t * ui_chartContainer = NULL;
 lv_obj_t * ui_theChart = NULL;
+lv_chart_series_t * mq8_series = NULL;
 lv_obj_t * ui_theChart_Xaxis = NULL;
 lv_obj_t * ui_theChart_Yaxis1 = NULL;
 lv_obj_t * ui_theChart_Yaxis2 = NULL;
@@ -18,14 +19,6 @@ lv_obj_t * ui_zoomInLabel = NULL;
 lv_obj_t * ui_zoomOutButton = NULL;
 lv_obj_t * ui_zoomOutLabel = NULL;
 // event funtions
-void ui_event_graphScreen(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_SCREEN_LOADED) {
-        startCO2Graph(e);
-    }
-}
 
 // build funtions
 
@@ -54,7 +47,7 @@ void ui_graphScreen_screen_init(void)
     //lv_obj_remove_flag( ui_theChart, LV_OBJ_FLAG_SCROLLABLE );    //no chart-zoom in LVGL9 - Shouldn't it be forced to False?
     lv_chart_set_type(ui_theChart, LV_CHART_TYPE_LINE);
     lv_chart_set_point_count(ui_theChart, 100);
-    lv_chart_set_range(ui_theChart, LV_CHART_AXIS_PRIMARY_Y, 0, 1000);
+    lv_chart_set_range(ui_theChart, LV_CHART_AXIS_PRIMARY_Y, 0, 200);
     lv_chart_set_range(ui_theChart, LV_CHART_AXIS_SECONDARY_Y, 0, 0);
 
     ui_theChart_Xaxis = lv_scale_create(ui_theChart);
@@ -82,12 +75,9 @@ void ui_graphScreen_screen_init(void)
     lv_obj_set_style_line_width(ui_theChart_Yaxis1, 1, LV_PART_INDICATOR);
     lv_obj_set_style_length(ui_theChart_Yaxis1, 5, LV_PART_ITEMS);   //minor tick length
     lv_obj_set_style_length(ui_theChart_Yaxis1, 8, LV_PART_INDICATOR);   //major tick length
-    lv_scale_set_range(ui_theChart_Yaxis1,  0, 1000);
+    lv_scale_set_range(ui_theChart_Yaxis1,  0, 200);
     lv_scale_set_total_tick_count(ui_theChart_Yaxis1, (5 > 0 ? 5 - 1 : 0) * 2 + 1);
     lv_scale_set_major_tick_every(ui_theChart_Yaxis1, 2 >= 1 ? 2 : 1);
-    lv_obj_add_flag(ui_theChart_Yaxis1, LV_OBJ_FLAG_FLOATING);
-    lv_obj_clear_flag(ui_theChart_Yaxis1, LV_OBJ_FLAG_SCROLLABLE);
-
     ui_theChart_Yaxis2 = lv_scale_create(ui_theChart);
     lv_scale_set_mode(ui_theChart_Yaxis2, LV_SCALE_MODE_VERTICAL_RIGHT);
     lv_obj_set_size(ui_theChart_Yaxis2, 25, lv_pct(100));
@@ -158,13 +148,14 @@ void ui_graphScreen_screen_init(void)
     lv_obj_set_y(ui_zoomOutLabel, 8);
     lv_obj_set_align(ui_zoomOutLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_zoomOutLabel, "-\n");
-
-
-    //lv_chart_cursor_t * ui_cursor1 = lv_chart_add_cursor(uic_Chart1, lv_color_hex(0x6C42C1), LV_DIR_BOTTOM);
-
-    lv_obj_add_event_cb(ui_graphScreen, ui_event_graphScreen, LV_EVENT_ALL, NULL);
+    
     uic_Chart1 = ui_theChart;
 
+    mq8_series = lv_chart_add_series(ui_theChart, 
+                                         lv_palette_main(LV_PALETTE_RED), 
+                                         LV_CHART_AXIS_PRIMARY_Y);
+
+    lv_chart_set_update_mode(ui_theChart, LV_CHART_UPDATE_MODE_CIRCULAR);
 }
 
 void ui_graphScreen_screen_destroy(void)

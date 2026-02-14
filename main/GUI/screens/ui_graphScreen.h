@@ -13,7 +13,6 @@ extern "C" {
 // SCREEN: ui_graphScreen
 extern void ui_graphScreen_screen_init(void);
 extern void ui_graphScreen_screen_destroy(void);
-extern void ui_event_graphScreen(lv_event_t * e);
 extern lv_obj_t * ui_graphScreen;
 extern lv_obj_t * ui_chartContainer;
 extern lv_obj_t * ui_theChart;
@@ -25,6 +24,7 @@ extern lv_obj_t * ui_zoomInButton;
 extern lv_obj_t * ui_zoomInLabel;
 extern lv_obj_t * ui_zoomOutButton;
 extern lv_obj_t * ui_zoomOutLabel;
+extern lv_chart_series_t * mq8_series;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Chart1;
 

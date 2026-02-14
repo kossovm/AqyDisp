@@ -86,6 +86,7 @@ void ui_init(void)
     ui_graphScreen_screen_init();
     ui_settingsScreen_screen_init();
     ui_instructionsScreen_screen_init();
+    ui_sensorChooseScreen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_logoScreen);
 }
@@ -98,4 +99,5 @@ void ui_destroy(void)
     ui_graphScreen_screen_destroy();
     ui_settingsScreen_screen_destroy();
     ui_instructionsScreen_screen_destroy();
+    ui_sensorChooseScreen_screen_destroy();
 }

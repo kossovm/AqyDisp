@@ -13,7 +13,7 @@ maintainers:
 - Ruslan V. Uss (@UncleRus) <unclerus@gmail.com>
 repository: git://github.com/esp-idf-lib/dht.git
 repository_info:
-  commit_sha: dd9b345789783d9d4f975c7cf33a4dd4d3800b17
+  commit_sha: ac43a691f5ec14ec0608deff5c64b1b06f90f12c
   path: .
 targets:
 - esp32
@@ -27,4 +27,4 @@ targets:
 - esp32s2
 - esp32s3
 url: https://github.com/esp-idf-lib/core
-version: 1.1.7
+version: 1.2.0

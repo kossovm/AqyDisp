@@ -7,6 +7,7 @@
 #include <esp_log.h>
 #include <esp_err.h>
 #include "soc/soc_caps.h"
+#include <math.h>
 
 #include <bmp280.h>
 #include <ina219.h>
@@ -17,6 +18,7 @@
 #include <ds18x20.h>
 
 #include "GUI/ui.h"
+#include "GUI/screens/ui_graphScreen.h"
 #include "esp_lvgl_port.h"
 
 #include "i2c_shared.h"
@@ -42,7 +44,7 @@
 
 #define DS18X20_ADDR_DEFAULT DS18X20_ANY
 
-#define DS18X20_GPIO_DEFAULT -1
+#define DS18X20_GPIO_DEFAULT 6
 
 //////////////////////////////////////////////////////
 
@@ -123,7 +125,7 @@ void initiateDummyDeviceForBUUUUS() {
     memset(&dummy_bus_holder, 0, sizeof(i2c_dev_t));
 
     dummy_bus_holder.port = I2C_PORT;
-    dummy_bus_holder.addr = 0x00;  // Doesn't matter - we won't communicate
+    dummy_bus_holder.addr = DUMMY_ADDR;
     dummy_bus_holder.cfg.sda_io_num = EXAMPLE_SDA;
     dummy_bus_holder.cfg.scl_io_num = EXAMPLE_SCL;
     dummy_bus_holder.cfg.master.clk_speed = 400000;
@@ -424,6 +426,20 @@ void ds18x20_test(void *pvParameter)
         else
             ESP_LOGI(TAG, "Sensor %08" PRIx32 "%08" PRIx32 ": %.2f°C",
                     (uint32_t)(DS18X20_ADDR_DEFAULT >> 32), (uint32_t)DS18X20_ADDR_DEFAULT, temperature);
+        
+        if (lvgl_port_lock(0)) {
+        
+            if (mq8_series != NULL && ui_theChart != NULL) {
+                // Add the new point
+                lv_chart_set_next_value(ui_theChart, mq8_series, (int)temperature);
+                
+                // Force redraw
+                lv_chart_refresh(ui_theChart);
+            }
+            
+            // CRITICAL: You must unlock!
+            lvgl_port_unlock();
+        }
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -458,6 +474,19 @@ void dht11_test(void *pvParameters)
 
 ///////////ANALOGUE SENSORS boogaloo (the electric kind)/////////////////
 
+
+
+// --- MQ-8 & Circuit Math ---
+// Voltage Divider: 5V output -> Resistors -> ESP32
+// Example: R1 (Series) = 2200 Ohm, R2 (GND) = 3300 Ohm
+// Multiplier = (R1+R2)/R2 = (2200+3300)/3300 = 1.666
+#define VOLTAGE_DIVIDER_RATIO  1.666f  
+
+#define RL_VALUE_K      10.0f    // Load Resistor on MQ board
+#define V_CIRCUIT       5.0f     // 5V VCC
+#define R0_CLEAN_AIR    4.85f    // Calibrate this! (Value of Rs in clean air / 70)
+#define MQ8_A           1080.0f  // Coefficient A
+#define MQ8_B           -0.642f  // Coefficient B
 
 
 /*---------------------------------------------------------------
@@ -514,9 +543,14 @@ static bool example_adc_calibration_init(adc_unit_t unit, adc_channel_t channel,
 
 
 
+// Define the Semaphore for thread safety (Must be global)
+SemaphoreHandle_t xGuiSemaphore = NULL;
+
+// Define a handle for the "Line" on the chart
+
 esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
 
-
+    xGuiSemaphore = xSemaphoreCreateMutex();
 
     //-------------ADC1 Init---------------//
     adc_oneshot_unit_handle_t adc_handle;
@@ -542,17 +576,131 @@ esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
 
     bool do_calibration1_chan0 = example_adc_calibration_init(ADC_UNIT_1, EXAMPLE_ADC1_CHAN5_GPIO6, EXAMPLE_ADC_ATTEN, &adc_cali_chan5_handle);
 
+    static float smoothed_raw = 0.0f;
+    bool first_run = true;
+
     while (1) {
-        ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, adc_raw));
+
+        uint32_t adc_accumulated = 0;
+        int num_samples = 64;
+
+        for (int i = 0; i < num_samples; i++) {
+            int raw_reading = 0;
+
+            ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &raw_reading));
+
+            adc_accumulated += raw_reading;
+
+            vTaskDelay(pdTICKS_TO_MS(1));
+        }
+
+        *adc_raw = adc_accumulated / num_samples;
+
         ESP_LOGI(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *adc_raw);
+
         if (do_calibration1_chan0) {
             ESP_ERROR_CHECK(adc_cali_raw_to_voltage(adc_cali_chan5_handle, *adc_raw, voltage));
             ESP_LOGI(TAG, "ADC%d Channel[%d] Cali Voltage: %d mV", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *voltage);
         }
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        else {
+            *voltage = *adc_raw * 3300 / 4095;
+        }
 
+        // --- MATH SECTION ---
+
+        // 1. Convert mV to Volts (Pin Voltage)
+        float v_pin = (float)*voltage / 1000.0f;
+
+        // 2. Account for Voltage Divider (Get actual Sensor Output)
+        float v_sensor = v_pin * VOLTAGE_DIVIDER_RATIO;
+
+        // 3. Safety check to prevent divide by zero
+        if (v_sensor <= 0.1 || v_sensor >= V_CIRCUIT - 0.1) {
+            ESP_LOGI(TAG, "ERROR"); // Error
+        }
+
+        // 4. Calculate Sensor Resistance (Rs)
+        // Rs = ((Vc - Vout) / Vout) * RL
+        float rs = ((V_CIRCUIT - v_sensor) / v_sensor) * RL_VALUE_K;
+
+        // 5. Calculate PPM using datasheet curve
+        float ratio = rs / R0_CLEAN_AIR;
+        float ppm = MQ8_A * pow(ratio, MQ8_B);
+        
+        const float BACKGROUND_NOISE_PPM = 70.6f;
+        
+        float real_ppm = ppm;
+
+        // If subtraction makes it negative, clamp to 0.0
+        if (real_ppm < 0) {
+            real_ppm = 0.0f;
+        }
+    
+        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, ppm);
+        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, real_ppm);
+        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali RS: %f Ohm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, rs);
+        
+        if (lvgl_port_lock(0)) {
+        
+            if (mq8_series != NULL && ui_theChart != NULL) {
+                // Add the new point
+                lv_chart_set_next_value(ui_theChart, mq8_series, (int)real_ppm);
+                
+                // Force redraw
+                lv_chart_refresh(ui_theChart);
+            }
+            
+            // CRITICAL: You must unlock!
+            lvgl_port_unlock();
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
+
+    //     // --- 1. READ RAW ADC (Burst Average) ---
+    //     uint32_t batch_sum = 0;
+    //     int samples = 64;
+    //     for (int i = 0; i < samples; i++) {
+    //         int r;
+    //         ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &r));
+    //         batch_sum += r;
+    //         esp_rom_delay_us(50);
+    //     }
+    //     int current_raw = batch_sum / samples;
+
+    //     // --- 2. SOFTWARE FILTER (The Magic Fix) ---
+    //     if (first_run) {
+    //         smoothed_raw = (float)current_raw; // Start at current value
+    //         first_run = false;
+    //     } else {
+    //         // Strong Smoothing: 95% History, 5% New Data
+    //         // If the data jumps from 1000 to 2000, this will only move to 1050.
+    //         smoothed_raw = (smoothed_raw * 0.95f) + ((float)current_raw * 0.05f);
+    //     }
+
+    //     // --- 3. BASELINE SUBTRACTION (Fake Zero) ---
+    //     // Look at your logs. If your sensor sits around 1000 in clean air, 
+    //     // set this number to 1000.
+    //     const float BASELINE_RAW = 1000.0f; 
+        
+    //     float display_value = smoothed_raw - BASELINE_RAW;
+    //     if (display_value < 0) display_value = 0;
+
+    //     // --- 4. LOGGING ---
+    //     // We log both so you can see the filter working
+    //     ESP_LOGI(TAG, "Noisy Raw: %d | Smoothed: %.1f | Graph Value: %.1f", 
+    //              current_raw, smoothed_raw, display_value);
+
+    //     // --- 5. CHART UPDATE ---
+    //     if (lvgl_port_lock(0)) {
+    //         if (mq8_series != NULL && ui_theChart != NULL) {
+    //             // We plot the smoothed relative value
+    //             lv_chart_set_next_value(ui_theChart, mq8_series, (int)display_value);
+    //             lv_chart_refresh(ui_theChart);
+    //         }
+    //         lvgl_port_unlock();
+    //     }
 
 
 
