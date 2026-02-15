@@ -1,0 +1,1 @@
+Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/home/dan/.espressif/tools/python/v5.5.2/venv/bin/python3 -DESP_PLATFORM=1 -DSDKCONFIG='/home/dan/projects/AqyDisp/sdkconfig' -DCCACHE_ENABLE=0 /home/dan/projects/AqyDisp

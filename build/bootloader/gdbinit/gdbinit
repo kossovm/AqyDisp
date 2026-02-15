@@ -1,2 +1,2 @@
-source /home/dan/projects/AqyLab/build/bootloader/gdbinit/symbols
-source /home/dan/projects/AqyLab/build/bootloader/gdbinit/connect
+source /home/dan/projects/AqyDisp/build/bootloader/gdbinit/symbols
+source /home/dan/projects/AqyDisp/build/bootloader/gdbinit/connect

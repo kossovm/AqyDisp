@@ -1,0 +1,1 @@
+void wifi_connect_direct(const char *ssid, const char *password);

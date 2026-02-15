@@ -18,7 +18,6 @@
 #include <ds18x20.h>
 
 #include "GUI/ui.h"
-#include "GUI/screens/ui_graphScreen.h"
 #include "esp_lvgl_port.h"
 
 #include "i2c_shared.h"
@@ -297,73 +296,73 @@ void scd41_dummy_init() {
     ESP_LOGI(TAG, "Dummy initialized");
 }
 
-void scd41_test(void *pvParameters)
-{
+// void scd41_test(void *pvParameters)
+// {
     
-    i2c_dev_t dev = { 0 };
+//     i2c_dev_t dev = { 0 };
 
-    ESP_ERROR_CHECK(scd4x_init_desc(&dev, (i2c_port_t)I2C_PORT, (gpio_num_t)EXAMPLE_SDA, (gpio_num_t)EXAMPLE_SCL));
+//     ESP_ERROR_CHECK(scd4x_init_desc(&dev, (i2c_port_t)I2C_PORT, (gpio_num_t)EXAMPLE_SDA, (gpio_num_t)EXAMPLE_SCL));
 
-    ESP_LOGI(TAG, "Initializing sensor...");
-    //ESP_ERROR_CHECK(scd4x_wake_up(&dev));
-    ESP_ERROR_CHECK(scd4x_stop_periodic_measurement(&dev));
-    ESP_ERROR_CHECK(scd4x_reinit(&dev));
-    ESP_LOGI(TAG, "Sensor initialized");
+//     ESP_LOGI(TAG, "Initializing sensor...");
+//     //ESP_ERROR_CHECK(scd4x_wake_up(&dev));
+//     ESP_ERROR_CHECK(scd4x_stop_periodic_measurement(&dev));
+//     ESP_ERROR_CHECK(scd4x_reinit(&dev));
+//     ESP_LOGI(TAG, "Sensor initialized");
 
-    uint16_t serial[3];
-    ESP_ERROR_CHECK(scd4x_get_serial_number(&dev, serial, serial + 1, serial + 2));
-    ESP_LOGI(TAG, "Sensor serial number: 0x%04x%04x%04x", serial[0], serial[1], serial[2]);
+//     uint16_t serial[3];
+//     ESP_ERROR_CHECK(scd4x_get_serial_number(&dev, serial, serial + 1, serial + 2));
+//     ESP_LOGI(TAG, "Sensor serial number: 0x%04x%04x%04x", serial[0], serial[1], serial[2]);
 
-    ESP_ERROR_CHECK(scd4x_start_periodic_measurement(&dev));
-    ESP_LOGI(TAG, "Periodic measurements started");
+//     ESP_ERROR_CHECK(scd4x_start_periodic_measurement(&dev));
+//     ESP_LOGI(TAG, "Periodic measurements started");
 
-    uint16_t co2;
-    float temperature, humidity;
+//     uint16_t co2;
+//     float temperature, humidity;
 
-    lvgl_port_lock(0);
-    lv_chart_series_t *co2ReadingsDataSeries = lv_chart_add_series(uic_Chart1, lv_color_hex(0x6C42C1), LV_CHART_AXIS_PRIMARY_Y);
-    lv_chart_set_x_start_point(uic_Chart1, co2ReadingsDataSeries, 0);
-    lvgl_port_unlock();
+//     lvgl_port_lock(0);
+//     lv_chart_series_t *co2ReadingsDataSeries = lv_chart_add_series(uic_Chart1, lv_color_hex(0x6C42C1), LV_CHART_AXIS_PRIMARY_Y);
+//     lv_chart_set_x_start_point(uic_Chart1, co2ReadingsDataSeries, 0);
+//     lvgl_port_unlock();
 
-    while (1)
-    {
+//     while (1)
+//     {
 
-        vTaskDelay(pdMS_TO_TICKS(5000));
+//         vTaskDelay(pdMS_TO_TICKS(5000));
 
-        esp_err_t res = scd4x_read_measurement(&dev, &co2, &temperature, &humidity);
-        if (res != ESP_OK)
-        {
-            ESP_LOGE(TAG, "Error reading results %d (%s)", res, esp_err_to_name(res));
-            continue;
-        }
+//         esp_err_t res = scd4x_read_measurement(&dev, &co2, &temperature, &humidity);
+//         if (res != ESP_OK)
+//         {
+//             ESP_LOGE(TAG, "Error reading results %d (%s)", res, esp_err_to_name(res));
+//             continue;
+//         }
 
-        if (co2 == 0)
-        {
-            ESP_LOGW(TAG, "Invalid sample detected, skipping");
-            continue;
-        }
+//         if (co2 == 0)
+//         {
+//             ESP_LOGW(TAG, "Invalid sample detected, skipping");
+//             continue;
+//         }
 
         
 
-        ESP_LOGI(TAG, "CO2: %u ppm", co2);
-        ESP_LOGI(TAG, "Temperature: %.2f °C", temperature);
-        ESP_LOGI(TAG, "Humidity: %.2f %%", humidity);
+//         ESP_LOGI(TAG, "CO2: %u ppm", co2);
+//         ESP_LOGI(TAG, "Temperature: %.2f °C", temperature);
+//         ESP_LOGI(TAG, "Humidity: %.2f %%", humidity);
 
-        ESP_LOGI(TAG, "YEYA");
+//         ESP_LOGI(TAG, "YEYA");
 
-        lvgl_port_lock(0);
+//         lvgl_port_lock(0);
 
-        lv_chart_set_range(uic_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, co2 + 300);
+//         lv_chart_set_range(uic_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, co2 + 300);
     
-        lv_chart_set_next_value(uic_Chart1, co2ReadingsDataSeries, (int32_t)co2);
+//         lv_chart_set_next_value(uic_Chart1, co2ReadingsDataSeries, (int32_t)co2);
 
-        //lv_chart_set_cursor_point();
-        lvgl_port_unlock();
+//         //lv_chart_set_cursor_point();
+//         lvgl_port_unlock();
 
-    }
+//     }
 
 
-}
+// }
 
 
 void aht10_test(void *pvParameters)
@@ -402,48 +401,48 @@ void aht10_test(void *pvParameters)
 ////////////ONE WIRE SENSORS////////////////
 
 
-void ds18x20_test(void *pvParameter)
-{
-    // Make sure that the internal pull-up resistor is enabled on the GPIO pin
-    // so that one can connect up a sensor without needing an external pull-up.
-    // (Note: The internal (~47k) pull-ups of the ESP do appear to work, at
-    // least for simple setups (one or two sensors connected with short leads),
-    // but do not technically meet the pull-up requirements from the ds18x20
-    // datasheet and may not always be reliable. For a real application, a proper
-    // 4.7k external pull-up resistor is recommended instead!)
+// void ds18x20_test(void *pvParameter)
+// {
+//     // Make sure that the internal pull-up resistor is enabled on the GPIO pin
+//     // so that one can connect up a sensor without needing an external pull-up.
+//     // (Note: The internal (~47k) pull-ups of the ESP do appear to work, at
+//     // least for simple setups (one or two sensors connected with short leads),
+//     // but do not technically meet the pull-up requirements from the ds18x20
+//     // datasheet and may not always be reliable. For a real application, a proper
+//     // 4.7k external pull-up resistor is recommended instead!)
 
-    gpio_set_pull_mode(DS18X20_GPIO_DEFAULT, GPIO_PULLUP_ONLY);
+//     gpio_set_pull_mode(DS18X20_GPIO_DEFAULT, GPIO_PULLUP_ONLY);
 
-    float temperature;
-    esp_err_t res;
+//     float temperature;
+//     esp_err_t res;
 
-    while (1)
-    {
-        res = ds18x20_measure_and_read(DS18X20_GPIO_DEFAULT, DS18X20_ADDR_DEFAULT, &temperature);
-        if (res != ESP_OK)
-            ESP_LOGE(TAG, "Could not read from sensor %08" PRIx32 "%08" PRIx32 ": %d (%s)",
-                    (uint32_t)(DS18X20_ADDR_DEFAULT >> 32), (uint32_t)DS18X20_ADDR_DEFAULT, res, esp_err_to_name(res));
-        else
-            ESP_LOGI(TAG, "Sensor %08" PRIx32 "%08" PRIx32 ": %.2f°C",
-                    (uint32_t)(DS18X20_ADDR_DEFAULT >> 32), (uint32_t)DS18X20_ADDR_DEFAULT, temperature);
+//     while (1)
+//     {
+//         res = ds18x20_measure_and_read(DS18X20_GPIO_DEFAULT, DS18X20_ADDR_DEFAULT, &temperature);
+//         if (res != ESP_OK)
+//             ESP_LOGE(TAG, "Could not read from sensor %08" PRIx32 "%08" PRIx32 ": %d (%s)",
+//                     (uint32_t)(DS18X20_ADDR_DEFAULT >> 32), (uint32_t)DS18X20_ADDR_DEFAULT, res, esp_err_to_name(res));
+//         else
+//             ESP_LOGI(TAG, "Sensor %08" PRIx32 "%08" PRIx32 ": %.2f°C",
+//                     (uint32_t)(DS18X20_ADDR_DEFAULT >> 32), (uint32_t)DS18X20_ADDR_DEFAULT, temperature);
         
-        if (lvgl_port_lock(0)) {
+//         if (lvgl_port_lock(0)) {
         
-            if (mq8_series != NULL && ui_theChart != NULL) {
-                // Add the new point
-                lv_chart_set_next_value(ui_theChart, mq8_series, (int)temperature);
+//             if (mq8_series != NULL && ui_theChart != NULL) {
+//                 // Add the new point
+//                 lv_chart_set_next_value(ui_theChart, mq8_series, (int)temperature);
                 
-                // Force redraw
-                lv_chart_refresh(ui_theChart);
-            }
+//                 // Force redraw
+//                 lv_chart_refresh(ui_theChart);
+//             }
             
-            // CRITICAL: You must unlock!
-            lvgl_port_unlock();
-        }
+//             // CRITICAL: You must unlock!
+//             lvgl_port_unlock();
+//         }
 
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
+//         vTaskDelay(pdMS_TO_TICKS(1000));
+//     }
+// }
 
 
 
@@ -548,115 +547,115 @@ SemaphoreHandle_t xGuiSemaphore = NULL;
 
 // Define a handle for the "Line" on the chart
 
-esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
+// esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
 
-    xGuiSemaphore = xSemaphoreCreateMutex();
+//     xGuiSemaphore = xSemaphoreCreateMutex();
 
-    //-------------ADC1 Init---------------//
-    adc_oneshot_unit_handle_t adc_handle;
-    adc_oneshot_unit_init_cfg_t init_config = {
-        .unit_id = ADC_UNIT_1,
-        .ulp_mode = ADC_ULP_MODE_DISABLE
-    };
-    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config, &adc_handle));
+//     //-------------ADC1 Init---------------//
+//     adc_oneshot_unit_handle_t adc_handle;
+//     adc_oneshot_unit_init_cfg_t init_config = {
+//         .unit_id = ADC_UNIT_1,
+//         .ulp_mode = ADC_ULP_MODE_DISABLE
+//     };
+//     ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config, &adc_handle));
 
 
-    //-------------ADC1 Config---------------//
+//     //-------------ADC1 Config---------------//
 
-    adc_oneshot_chan_cfg_t channel_config = {
-        .atten = EXAMPLE_ADC_ATTEN,
-        .bitwidth = ADC_BITWIDTH_DEFAULT,
-    };
+//     adc_oneshot_chan_cfg_t channel_config = {
+//         .atten = EXAMPLE_ADC_ATTEN,
+//         .bitwidth = ADC_BITWIDTH_DEFAULT,
+//     };
 
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &channel_config));
+//     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &channel_config));
 
-    //-------------ADC1 Calibration Init---------------//
+//     //-------------ADC1 Calibration Init---------------//
 
-    adc_cali_handle_t adc_cali_chan5_handle = NULL;
+//     adc_cali_handle_t adc_cali_chan5_handle = NULL;
 
-    bool do_calibration1_chan0 = example_adc_calibration_init(ADC_UNIT_1, EXAMPLE_ADC1_CHAN5_GPIO6, EXAMPLE_ADC_ATTEN, &adc_cali_chan5_handle);
+//     bool do_calibration1_chan0 = example_adc_calibration_init(ADC_UNIT_1, EXAMPLE_ADC1_CHAN5_GPIO6, EXAMPLE_ADC_ATTEN, &adc_cali_chan5_handle);
 
-    static float smoothed_raw = 0.0f;
-    bool first_run = true;
+//     static float smoothed_raw = 0.0f;
+//     bool first_run = true;
 
-    while (1) {
+//     while (1) {
 
-        uint32_t adc_accumulated = 0;
-        int num_samples = 64;
+//         uint32_t adc_accumulated = 0;
+//         int num_samples = 64;
 
-        for (int i = 0; i < num_samples; i++) {
-            int raw_reading = 0;
+//         for (int i = 0; i < num_samples; i++) {
+//             int raw_reading = 0;
 
-            ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &raw_reading));
+//             ESP_ERROR_CHECK(adc_oneshot_read(adc_handle, EXAMPLE_ADC1_CHAN5_GPIO6, &raw_reading));
 
-            adc_accumulated += raw_reading;
+//             adc_accumulated += raw_reading;
 
-            vTaskDelay(pdTICKS_TO_MS(1));
-        }
+//             vTaskDelay(pdTICKS_TO_MS(1));
+//         }
 
-        *adc_raw = adc_accumulated / num_samples;
+//         *adc_raw = adc_accumulated / num_samples;
 
-        ESP_LOGI(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *adc_raw);
+//         ESP_LOGI(TAG, "ADC%d Channel[%d] Raw Data: %d", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *adc_raw);
 
-        if (do_calibration1_chan0) {
-            ESP_ERROR_CHECK(adc_cali_raw_to_voltage(adc_cali_chan5_handle, *adc_raw, voltage));
-            ESP_LOGI(TAG, "ADC%d Channel[%d] Cali Voltage: %d mV", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *voltage);
-        }
-        else {
-            *voltage = *adc_raw * 3300 / 4095;
-        }
+//         if (do_calibration1_chan0) {
+//             ESP_ERROR_CHECK(adc_cali_raw_to_voltage(adc_cali_chan5_handle, *adc_raw, voltage));
+//             ESP_LOGI(TAG, "ADC%d Channel[%d] Cali Voltage: %d mV", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, *voltage);
+//         }
+//         else {
+//             *voltage = *adc_raw * 3300 / 4095;
+//         }
 
-        // --- MATH SECTION ---
+//         // --- MATH SECTION ---
 
-        // 1. Convert mV to Volts (Pin Voltage)
-        float v_pin = (float)*voltage / 1000.0f;
+//         // 1. Convert mV to Volts (Pin Voltage)
+//         float v_pin = (float)*voltage / 1000.0f;
 
-        // 2. Account for Voltage Divider (Get actual Sensor Output)
-        float v_sensor = v_pin * VOLTAGE_DIVIDER_RATIO;
+//         // 2. Account for Voltage Divider (Get actual Sensor Output)
+//         float v_sensor = v_pin * VOLTAGE_DIVIDER_RATIO;
 
-        // 3. Safety check to prevent divide by zero
-        if (v_sensor <= 0.1 || v_sensor >= V_CIRCUIT - 0.1) {
-            ESP_LOGI(TAG, "ERROR"); // Error
-        }
+//         // 3. Safety check to prevent divide by zero
+//         if (v_sensor <= 0.1 || v_sensor >= V_CIRCUIT - 0.1) {
+//             ESP_LOGI(TAG, "ERROR"); // Error
+//         }
 
-        // 4. Calculate Sensor Resistance (Rs)
-        // Rs = ((Vc - Vout) / Vout) * RL
-        float rs = ((V_CIRCUIT - v_sensor) / v_sensor) * RL_VALUE_K;
+//         // 4. Calculate Sensor Resistance (Rs)
+//         // Rs = ((Vc - Vout) / Vout) * RL
+//         float rs = ((V_CIRCUIT - v_sensor) / v_sensor) * RL_VALUE_K;
 
-        // 5. Calculate PPM using datasheet curve
-        float ratio = rs / R0_CLEAN_AIR;
-        float ppm = MQ8_A * pow(ratio, MQ8_B);
+//         // 5. Calculate PPM using datasheet curve
+//         float ratio = rs / R0_CLEAN_AIR;
+//         float ppm = MQ8_A * pow(ratio, MQ8_B);
         
-        const float BACKGROUND_NOISE_PPM = 70.6f;
+//         const float BACKGROUND_NOISE_PPM = 70.6f;
         
-        float real_ppm = ppm;
+//         float real_ppm = ppm;
 
-        // If subtraction makes it negative, clamp to 0.0
-        if (real_ppm < 0) {
-            real_ppm = 0.0f;
-        }
+//         // If subtraction makes it negative, clamp to 0.0
+//         if (real_ppm < 0) {
+//             real_ppm = 0.0f;
+//         }
     
-        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, ppm);
-        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, real_ppm);
-        ESP_LOGI(TAG, "ADC%d Channel[%d] Cali RS: %f Ohm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, rs);
+//         ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, ppm);
+//         ESP_LOGI(TAG, "ADC%d Channel[%d] Cali PPM: %f ppm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, real_ppm);
+//         ESP_LOGI(TAG, "ADC%d Channel[%d] Cali RS: %f Ohm", ADC_UNIT_1 + 1, EXAMPLE_ADC1_CHAN5_GPIO6, rs);
         
-        if (lvgl_port_lock(0)) {
+//         if (lvgl_port_lock(0)) {
         
-            if (mq8_series != NULL && ui_theChart != NULL) {
-                // Add the new point
-                lv_chart_set_next_value(ui_theChart, mq8_series, (int)real_ppm);
+//             if (mq8_series != NULL && ui_theChart != NULL) {
+//                 // Add the new point
+//                 lv_chart_set_next_value(ui_theChart, mq8_series, (int)real_ppm);
                 
-                // Force redraw
-                lv_chart_refresh(ui_theChart);
-            }
+//                 // Force redraw
+//                 lv_chart_refresh(ui_theChart);
+//             }
             
-            // CRITICAL: You must unlock!
-            lvgl_port_unlock();
-        }
+//             // CRITICAL: You must unlock!
+//             lvgl_port_unlock();
+//         }
 
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
+//         vTaskDelay(pdMS_TO_TICKS(1000));
+//     }
+// }
 
     //     // --- 1. READ RAW ADC (Burst Average) ---
     //     uint32_t batch_sum = 0;
@@ -706,11 +705,11 @@ esp_err_t adc_config_cali_init(int *adc_raw, int *voltage) {
 
 //NEEEDS TESTING. ARA ARA//
 
-void mq8_print_values_test(void *pvParameters) {
-    int adc_raw_m8, voltage_m8;
+// void mq8_print_values_test(void *pvParameters) {
+//     int adc_raw_m8, voltage_m8;
 
-    adc_config_cali_init(&adc_raw_m8, &voltage_m8);
-}
+//     adc_config_cali_init(&adc_raw_m8, &voltage_m8);
+// }
 
 
 

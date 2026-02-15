@@ -8,10 +8,12 @@ idf_component_register(
         "GUI/components"
         "GUI/screens"       # all screen .c files *with* extension
         "GUI/images"        # auto-generated image sources
+        "GUI/fonts"         # auto-generated font sources
         "LVGL_init"
         "OTA"
         "Sensors"
         "WIFI"
+        "JSON"
 
     INCLUDE_DIRS "."
 )

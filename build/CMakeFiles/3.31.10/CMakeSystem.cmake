@@ -1,9 +1,9 @@
-set(CMAKE_HOST_SYSTEM "Linux-6.17.11-300.fc43.x86_64")
+set(CMAKE_HOST_SYSTEM "Linux-6.18.9-200.fc43.x86_64")
 set(CMAKE_HOST_SYSTEM_NAME "Linux")
-set(CMAKE_HOST_SYSTEM_VERSION "6.17.11-300.fc43.x86_64")
+set(CMAKE_HOST_SYSTEM_VERSION "6.18.9-200.fc43.x86_64")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "x86_64")
 
-include("/home/dan/esp/v5.4.2/esp-idf/tools/cmake/toolchain-esp32s3.cmake")
+include("/home/dan/.espressif/v5.5.2/esp-idf/tools/cmake/toolchain-esp32s3.cmake")
 
 set(CMAKE_SYSTEM "Generic")
 set(CMAKE_SYSTEM_NAME "Generic")

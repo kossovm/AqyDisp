@@ -1,21 +1,9 @@
-SET(SOURCES screens/ui_logoScreen.c
-    screens/ui_homeScreen.c
-    screens/ui_wifiConnectScreen.c
-    screens/ui_graphScreen.c
-    screens/ui_settingsScreen.c
-    screens/ui_instructionsScreen.c
-    screens/ui_sensorChooseScreen.c
+SET(SOURCES screens/ui_ServiceScreen.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
     ui_events.c
-    images/ui_img_logo_png.c
-    images/ui_img_chart_png.c
-    images/ui_img_473763830.c
-    images/ui_img_settings_png.c
-    images/ui_img_996158111.c
-    images/ui_img_338993590.c
-    images/ui_img_round_back_png.c
-    images/ui_img_wait_png.c)
+    fonts/ui_font_KazakhFontNovo36.c
+    fonts/ui_font_KazakhFontNovoNumbers140.c)
 
 add_library(ui ${SOURCES})

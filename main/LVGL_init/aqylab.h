@@ -78,7 +78,7 @@
 #define EXAMPLE_TOUCH_CLK_HZ 400000
 
 
-#define BUFFER_SIZE (EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES) / 5
+#define BUFFER_SIZE (EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES) / 10
 
 
 void aqylab_init(void);

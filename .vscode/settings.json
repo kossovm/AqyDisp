@@ -66,5 +66,6 @@
     "esp_lvgl_port.h": "c",
     "soc_caps.h": "c",
     "adc_cali.h": "c"
-  }
+  },
+  "idf.currentSetup": "/home/dan/.espressif/v5.5.2/esp-idf"
 }

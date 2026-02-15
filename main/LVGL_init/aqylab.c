@@ -190,7 +190,7 @@ esp_err_t lcd_port_init(void) {
         .io_handle = io_handle,
         .panel_handle = panel_handle,
         .buffer_size = BUFFER_SIZE,
-        .double_buffer = true,
+        .double_buffer = false,
         .hres = EXAMPLE_LCD_H_RES,
         .vres = EXAMPLE_LCD_V_RES,
         .color_format = LV_COLOR_FORMAT_RGB565,
