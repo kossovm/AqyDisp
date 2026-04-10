@@ -16,5 +16,22 @@ idf_component_register(
         "JSON"
 
     INCLUDE_DIRS "."
+    REQUIRES
+        cjson
+        esp_event
+        esp_netif
+        esp_http_client
+        esp_https_ota
+        nvs_flash
+        esp_wifi
+        esp_lcd
+        esp_timer
+        app_update
+        esp_driver_ledc
+        esp_driver_gpio
+        esp_driver_spi
+        esp_driver_i2c
+        esp_adc
+        mbedtls
 )
 

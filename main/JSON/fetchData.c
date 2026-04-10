@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "esp_log.h"
 #include "esp_http_client.h"
-#include "cJSON.h"
+#include "cJSON.h" // provided by ESP-IDF's built-in cJSON component
 #include "esp_crt_bundle.h" // Needed for HTTPS certification
 
 static const char *TAG = "FETCH_API";

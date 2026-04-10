@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-/home/dan/projects/AqyDisp/build/CMakeFiles/bootloader
-/home/dan/projects/AqyDisp/build/CMakeFiles/bootloader.rule
-/home/dan/projects/AqyDisp/build/CMakeFiles/bootloader-complete.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-/home/dan/projects/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/CMakeFiles/bootloader
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/CMakeFiles/bootloader.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/CMakeFiles/bootloader-complete.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/Users/kosso/Documents/GitHub/AqyDisp/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

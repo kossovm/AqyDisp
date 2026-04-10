@@ -1,8 +1,8 @@
-# Install script for directory: /home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include
+# Install script for directory: G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/simple_ota")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,119 +34,42 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/dan/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-objdump")
+  set(CMAKE_OBJDUMP "C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/mbedtls" TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ FILES
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/aes.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/aria.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1write.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/base64.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/bignum.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/block_cipher.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/build_info.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/camellia.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ccm.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/chacha20.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/chachapoly.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/check_config.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cmac.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/compat-2.x.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_legacy_crypto.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_legacy_from_psa.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_psa_from_legacy.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_psa_superset_legacy.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_ssl.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_adjust_x509.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config_psa.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/constant_time.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ctr_drbg.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/debug.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/des.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/dhm.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdh.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecjpake.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecp.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/entropy.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/error.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/gcm.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/hkdf.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/hmac_drbg.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/lms.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/mbedtls_config.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md5.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/memory_buffer_alloc.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/net_sockets.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/nist_kw.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/oid.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pem.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pk.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pkcs12.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pkcs5.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pkcs7.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_time.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/poly1305.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/private_access.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/psa_util.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ripemd160.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/rsa.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/sha1.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/sha256.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/sha3.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/sha512.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_cache.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_ciphersuites.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_cookie.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_ticket.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/threading.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/timing.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/version.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crl.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crt.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_csr.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/build_info.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/debug.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/error.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/mbedtls_config.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/net_sockets.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/oid.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pkcs7.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_cache.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_ciphersuites.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_cookie.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl_ticket.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/timing.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/version.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crl.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crt.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_csr.h"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/psa" TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ FILES
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/build_info.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_adjust_auto_enabled.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_adjust_config_dependencies.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_adjust_config_key_pair_types.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_adjust_config_synonyms.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_builtin_composites.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_builtin_key_derivation.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_builtin_primitives.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_compat.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_config.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_driver_common.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_driver_contexts_composites.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_driver_contexts_key_derivation.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_driver_contexts_primitives.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_extra.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_legacy.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_platform.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_se_driver.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_sizes.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_struct.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_types.h"
-    "/home/dan/.espressif/v5.5.2/esp-idf/components/mbedtls/mbedtls/include/psa/crypto_values.h"
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/mbedtls/private" TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ FILES
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/private/config_adjust_ssl.h"
+    "G:/espressif/v6.0/esp-idf/components/mbedtls/mbedtls/include/mbedtls/private/config_adjust_x509.h"
     )
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/dan/projects/AqyDisp/build/esp-idf/mbedtls/mbedtls/include/install_local_manifest.txt"
+  file(WRITE "C:/Users/kosso/Documents/GitHub/AqyDisp/build/esp-idf/mbedtls/mbedtls/include/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

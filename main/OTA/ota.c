@@ -1,4 +1,5 @@
 #include "ota.h"
+#include "esp_netif.h"
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
@@ -26,6 +27,12 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
         break;
     case HTTP_EVENT_REDIRECT:
         ESP_LOGD(TAG, "HTTP_EVENT_REDIRECT");
+        break;
+    case HTTP_EVENT_ON_HEADERS_COMPLETE:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_HEADERS_COMPLETE");
+        break;
+    case HTTP_EVENT_ON_STATUS_CODE:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_STATUS_CODE");
         break;
     }
     return ESP_OK;
@@ -147,7 +154,10 @@ void ota_custom_init(void) {
      */
 
 
-    ESP_ERROR_CHECK(example_connect());
+    // NOTE: example_connect() was removed in ESP-IDF v6.0 (was from protocol_examples_common).
+    // Wi-Fi connection must be established before calling ota_custom_init().
+    // See WIFI/wifi.h for the project's own Wi-Fi initialization.
+    // ESP_ERROR_CHECK(example_connect());
 
 #if CONFIG_EXAMPLE_CONNECT_WIFI
     /* Ensure to disable any WiFi power save mode, this allows best throughput

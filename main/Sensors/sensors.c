@@ -139,7 +139,7 @@ void initiateDummyDeviceForBUUUUS() {
     }
 
     // Now get the bus handle using the new function
-    i2c_bus_handle = i2cdev_get_bus_handle(I2C_PORT);
+    ESP_ERROR_CHECK(i2cdev_get_shared_handle(I2C_PORT, (void **)&i2c_bus_handle));
     
     if (i2c_bus_handle == NULL) {
         ESP_LOGE(TAG, "Failed to get I2C bus handle!");

@@ -45,7 +45,7 @@ esp_err_t app_touch_init(void)
     //i2c_master_bus_init(&i2c_bus_handle);
 
 
-    i2c_bus_handle = i2cdev_get_bus_handle(1);
+    ESP_ERROR_CHECK(i2cdev_get_shared_handle(1, (void **)&i2c_bus_handle));
 
     /* Initialize touch */
     esp_lcd_panel_io_i2c_config_t tp_io_config = ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG();
@@ -165,7 +165,7 @@ esp_err_t lcd_core_init(void) {
     
     esp_lcd_panel_dev_config_t panel_config = {
         .reset_gpio_num = EXAMPLE_PIN_NUM_RST,
-        .color_space = ESP_LCD_COLOR_SPACE_BGR,
+        .rgb_ele_order = LCD_RGB_ELEMENT_ORDER_BGR,
         .bits_per_pixel = 16,
     };
     ESP_RETURN_ON_ERROR(esp_lcd_new_panel_ili9488(io_handle, &panel_config, 0, &panel_handle), TAG, "Couldn't initialiaze ili9488 panel");

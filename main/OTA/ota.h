@@ -6,7 +6,7 @@
 #include "esp_ota_ops.h"
 #include "esp_http_client.h"
 #include "esp_https_ota.h"
-#include "protocol_examples_common.h"
+// protocol_examples_common.h removed - not available in ESP-IDF v6.0
 #include "string.h"
 
 #ifdef CONFIG_EXAMPLE_USE_CERT_BUNDLE
