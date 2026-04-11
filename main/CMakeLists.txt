@@ -14,13 +14,13 @@ idf_component_register(
         "Sensors"
         "WIFI"
         "JSON"
-
     INCLUDE_DIRS "."
     REQUIRES
         cjson
         esp_event
         esp_netif
         esp_http_client
+        esp_http_server
         esp_https_ota
         nvs_flash
         esp_wifi

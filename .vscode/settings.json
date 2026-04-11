@@ -1,10 +1,9 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "clangd.path": "/home/dan/.espressif/tools/esp-clang/esp-18.1.2_20240912/esp-clang/bin/clangd",
+  "clangd.path": "clangd",
   "clangd.arguments": [
     "--background-index",
-    "--query-driver=/home/dan/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp-elf-gcc",
-    "--compile-commands-dir=/home/dan/projects/esp/OTA_test/simple_ota_example/build"
+    "--compile-commands-dir=${workspaceFolder}/build"
   ],
   "files.associations": {
     "ota.h": "c",
@@ -57,5 +56,6 @@
     "adc_cali.h": "c"
   },
   "idf.currentSetup": "G:\\espressif\\v6.0\\esp-idf",
-  "idf.portWin": "COM5"
+  "idf.portWin": "COM7",
+  "idf.flashType": "UART"
 }

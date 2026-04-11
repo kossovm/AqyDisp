@@ -20,7 +20,7 @@
 #include "esp_wifi.h"
 #endif
 
-static const char *TAG = "AqyLab_OTA";
+// static const char *TAG = "AqyLab_OTA";
 
 #define HASH_LEN 32
 

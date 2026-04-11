@@ -44,7 +44,7 @@ void ui_ServiceScreen_screen_init(void)
     lv_obj_set_x(ui_readyNameLabel, 0);
     lv_obj_set_y(ui_readyNameLabel, 70);
     lv_obj_set_align(ui_readyNameLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_readyNameLabel, "Кім?");
+    lv_label_set_text(ui_readyNameLabel, "Тапсырысыңызды күтеміз :)");
     lv_obj_set_style_text_color(ui_readyNameLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_readyNameLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_readyNameLabel, &ui_font_KazakhFontNovo36, LV_PART_MAIN | LV_STATE_DEFAULT);

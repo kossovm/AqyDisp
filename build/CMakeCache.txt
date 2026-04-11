@@ -314,7 +314,7 @@ ESP_PLATFORM:UNINITIALIZED=1
 GEN_FILES:BOOL=OFF
 
 //Git command line client
-GIT_EXECUTABLE:FILEPATH=C:/Users/kosso/scoop/shims/git.exe
+GIT_EXECUTABLE:FILEPATH=C:/Users/kosso/scoop/apps/git/current/cmd/git.exe
 
 //IDF Build Target
 IDF_TARGET:STRING=esp32s3
@@ -630,7 +630,7 @@ C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //esp-idf supports esp_driver_ components
 EIL_IDF_HAS_ESP_DRIVERS:INTERNAL=TRUE
 //Details about finding Git
-FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Users/kosso/scoop/shims/git.exe][v2.53.0.windows.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Users/kosso/scoop/apps/git/current/cmd/git.exe][v2.53.0.windows.2()]
 //Details about finding Python3
 FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Espressif/tools/python/662a3be/venv/Scripts/python.exe][found components: Interpreter ][v3.13.12()]
 //Details about finding Threads

@@ -5,13 +5,14 @@
 #include "esp_http_client.h"
 #include "cJSON.h" // provided by ESP-IDF's built-in cJSON component
 #include "esp_crt_bundle.h" // Needed for HTTPS certification
+#include "config_app.h"
 
 static const char *TAG = "FETCH_API";
 
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 
-// API URL
-#define API_URL "https://api.coffeeh.kz/api/v1/displays/pickup/1"
+// Base API URL
+#define API_BASE_URL "https://api.coffeeh.kz/api/v1/displays/pickup"
 
 /**
  * @brief Event handler for the HTTP client. 
@@ -19,27 +20,27 @@ static const char *TAG = "FETCH_API";
  */
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
-    static char *output_buffer;  // Buffer to store response of http request
     static int output_len;       // Stores number of bytes read
 
     switch(evt->event_id) {
         case HTTP_EVENT_ON_DATA:
             // Append new data to the buffer
             if (!esp_http_client_is_chunked_response(evt->client)) {
-                // If user_data buffer is configured, copy data there
                 if (evt->user_data) {
-                    memcpy(evt->user_data + output_len, evt->data, evt->data_len);
-                } else {
-                     // If you didn't pass a buffer pointer, you'd handle heap allocation here
-                     // But for this example, we will use the user_data approach passed from the main function
+                    if (output_len + evt->data_len < MAX_HTTP_OUTPUT_BUFFER) {
+                        memcpy(evt->user_data + output_len, evt->data, evt->data_len);
+                        output_len += evt->data_len;
+                    } else {
+                        ESP_LOGE(TAG, "HTTP Response too large. Buffer overflow prevented!");
+                    }
                 }
-                output_len += evt->data_len;
             }
             break;
         case HTTP_EVENT_ON_FINISH:
             output_len = 0;
             break;
         case HTTP_EVENT_DISCONNECTED:
+        case HTTP_EVENT_ERROR:
             output_len = 0;
             break;
         default:
@@ -59,9 +60,12 @@ esp_err_t fetch_order_data(OrderData *out_data)
     // Clear buffer
     memset(response_buffer, 0, MAX_HTTP_OUTPUT_BUFFER);
 
+    char dynamic_url[128];
+    snprintf(dynamic_url, sizeof(dynamic_url), "%s/%d", API_BASE_URL, g_app_config.display_id);
+
     // 2. Configure HTTP Client
     esp_http_client_config_t config = {
-        .url = API_URL,
+        .url = dynamic_url,
         .event_handler = _http_event_handler,
         .user_data = response_buffer,        // Pass buffer to event handler
         .disable_auto_redirect = true,
@@ -91,7 +95,7 @@ esp_err_t fetch_order_data(OrderData *out_data)
         } else {
             // Navigate to "order" object
             cJSON *order_obj = cJSON_GetObjectItem(root, "order");
-            if (order_obj) {
+            if (order_obj && !cJSON_IsNull(order_obj)) {
                 // Extract order_id
                 cJSON *id_item = cJSON_GetObjectItem(order_obj, "order_id");
                 if (cJSON_IsNumber(id_item)) {
@@ -112,7 +116,12 @@ esp_err_t fetch_order_data(OrderData *out_data)
                 
                 parse_success = true;
             } else {
-                ESP_LOGE(TAG, "JSON object 'order' not found");
+                // Если заказа нет или он null - это валидная ситуация (очередь пуста)
+                ESP_LOGI(TAG, "No active order found (order is null or missing)");
+                out_data->order_id = 0;
+                memset(out_data->order_number, 0, sizeof(out_data->order_number));
+                memset(out_data->customer_name, 0, sizeof(out_data->customer_name));
+                parse_success = true;
             }
             cJSON_Delete(root);
         }
